@@ -1,4 +1,5 @@
 using Containers_Menagment.Exceptions;
+using Containers_Menagment.Products.Base;
 
 namespace Containers_Menagment.Models.Base;
 
@@ -9,9 +10,9 @@ public abstract class ContainerBase{
     public double Depth{ get; set;}
     public double WeightOfLoad{ get; set;}
     public string SerialNumber{ get; set;}
-    public string CurrentProduct{ get; set;}
+    public ProductBase CurrentProduct{ get; set;}
 
-    public ContainerBase(string serialNumber, double weightOfLoad, double height, double weight, double depth, double maxWeight, string currentProduct) {
+    public ContainerBase(string serialNumber, double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct) {
         MaxLoadWeight = maxWeight;
         Height = height;
         Weight = weight;
@@ -22,13 +23,15 @@ public abstract class ContainerBase{
     }
 
     public void Unload(){
-
+        WeightOfLoad = 0;
+        CurrentProduct = null;
     }
 
-    public void Load(double newWeight){
+    public void Load(double newWeight, ProductBase product){
         if(newWeight > MaxLoadWeight){
             throw new OverfillException();
         }
-        
+        WeightOfLoad = newWeight;
+        CurrentProduct = product;
     }
 }
