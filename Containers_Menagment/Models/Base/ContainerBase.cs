@@ -22,12 +22,12 @@ public abstract class ContainerBase{
         CurrentProduct = currentProduct;
     }
 
-    public void Unload(){
+    public virtual void Unload(){
         WeightOfLoad = 0;
         CurrentProduct = null;
     }
 
-    public void Load(double newWeight, ProductBase product){
+    public virtual void Load(double newWeight, ProductBase product){
         if(newWeight > MaxLoadWeight){
             throw new OverfillException();
         }
