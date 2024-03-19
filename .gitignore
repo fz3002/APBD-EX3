@@ -5,6 +5,7 @@
 
 #VSCODE
 .vscode
+.mono
 
 # User-specific files
 *.rsuser

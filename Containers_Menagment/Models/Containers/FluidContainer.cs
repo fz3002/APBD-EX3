@@ -1,20 +1,11 @@
 using Containers_Menagment.Interfaces;
 using Containers_Menagment.Models.Base;
-using Containers_Menagment.Products.Base;
 
-namespace Containers_Menagment.Models;
+namespace Containers_Menagment.Models.Containers;
 
-class FuildContainer : ContainerBase, IHazardNotifier
+class FuildContainer(string serialNumber, double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct, bool hazardousLoad) : ContainerBase(serialNumber, weightOfLoad, height, weight, depth, maxWeight, currentProduct), IHazardNotifier
 {
-    public Boolean HazardousLoad { get; set; }
-    public FuildContainer(string serialNumber, double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct, Boolean hazardousLoad) 
-        : base(serialNumber, weightOfLoad, height, weight, depth, maxWeight, currentProduct){
-            HazardousLoad = hazardousLoad;
-    }
-
-    void Notify(){
-        Console.WriteLine("Warning, potential breach in container: " + SerialNumber);
-    }
+    public bool HazardousLoad { get; set; } = hazardousLoad;
 
     public override void Load(double newWeight, ProductBase product)
     {
@@ -33,5 +24,15 @@ class FuildContainer : ContainerBase, IHazardNotifier
                 Console.WriteLine("DANGER!!!\n Max Safe Load exceeded: " + newWeight);
             }
         }
+    }
+
+    public void Notify()
+    {
+       Console.WriteLine("Warning Danger!!! Container:" + SerialNumber);
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + "\nContainer Type: Fluid Container" +"\nHazardous Load: " + HazardousLoad;
     }
 }

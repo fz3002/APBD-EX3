@@ -1,26 +1,16 @@
 using Containers_Menagment.Exceptions;
-using Containers_Menagment.Products.Base;
 
 namespace Containers_Menagment.Models.Base;
 
-public abstract class ContainerBase{
-    public double MaxLoadWeight{ get;}
-    public double Height{ get; set;}
-    public double Weight{ get; set;}
-    public double Depth{ get; set;}
-    public double WeightOfLoad{ get; set;}
-    public string SerialNumber{ get; set;}
-    public ProductBase CurrentProduct{ get; set;}
-
-    public ContainerBase(string serialNumber, double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct) {
-        MaxLoadWeight = maxWeight;
-        Height = height;
-        Weight = weight;
-        Depth = depth;
-        SerialNumber = serialNumber;
-        WeightOfLoad = weightOfLoad;
-        CurrentProduct = currentProduct;
-    }
+public abstract class ContainerBase(string serialNumber, double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct)
+{
+    public double MaxLoadWeight { get; } = maxWeight;
+    public double Height { get; set; } = height;
+    public double Weight { get; set; } = weight;
+    public double Depth { get; set; } = depth;
+    public double WeightOfLoad { get; set; } = weightOfLoad;
+    public string SerialNumber { get; set; } = serialNumber;
+    public ProductBase? CurrentProduct { get; set; } = currentProduct;
 
     public virtual void Unload(){
         WeightOfLoad = 0;
@@ -33,5 +23,14 @@ public abstract class ContainerBase{
         }
         WeightOfLoad = newWeight;
         CurrentProduct = product;
+    }
+
+    public override string ToString()
+    {
+        return "Container: " + SerialNumber + 
+                "\nMax Weight: " + MaxLoadWeight + 
+                "\nCurrent Product: " + CurrentProduct + 
+                "\nCurrent Load Weight: " + WeightOfLoad + 
+                "\nFull Weight: " + Weight;
     }
 }
