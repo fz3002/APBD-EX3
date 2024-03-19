@@ -1,45 +1,70 @@
-using System.Runtime.InteropServices;
+using Containers_Menagment.Exceptions;
 
 namespace Containers_Menagment.Models.Base;
 
 public class ContainerShipBase
 {
-    List<ContainerBase> CurrentLoadList = [];
+    public List<ContainerBase> CurrentLoadList = [];
     public string Name{ get; set; }
 
-    public string RegistrationNumber{ get; set; }
+    public double MaxSpeed { get; set; }
 
-    public string MotherPort{ get; set; }
+    public double MaxWeight { get; set; }
 
-    public string BuildYear{ get; set; }
-
-    public ContainerShipBase(string name, string registrationNumber, string motherPort, string buildYear)
-    {
-        Name = name;
-        RegistrationNumber = registrationNumber;
-        MotherPort = motherPort;
-        BuildYear = buildYear;
+    public int MaxContainerNum 
+    { 
+        get => CurrentLoadList.Capacity; 
+        set 
+        { 
+            CurrentLoadList.Capacity = value;
+        } 
     }
 
-    public ContainerShipBase(string name, string registrationNumber, string motherPort, string buildYear, List<ContainerBase> loadList)
+    public ContainerShipBase(string name, double maxSpeed, double maxWeight, int maxContainerNum)
     {
-        CurrentLoadList = loadList;
         Name = name;
-        RegistrationNumber = registrationNumber;
-        MotherPort = motherPort;
-        BuildYear = buildYear;
+        MaxSpeed = maxSpeed;
+        MaxWeight = maxWeight;
+        MaxContainerNum = maxContainerNum;
+    }
+
+    public ContainerShipBase(string name, double maxSpeed, double maxWeight, int maxContainerNum, List<ContainerBase> loadList)
+    {
+        
+        Name = name;
+        MaxSpeed = maxSpeed;
+        MaxWeight = maxWeight;
+        MaxContainerNum = maxContainerNum;
+        LoadContainer(loadList);
     }
 
     public void LoadContainer(ContainerBase container)
     {
-        CurrentLoadList.Add(container);
+        if(MaxContainerNum < CurrentLoadList.Count && 
+            (CurrentLoadWieght() + container.Weight) >= MaxWeight)
+        {
+            CurrentLoadList.Add(container);
+        }
+        else
+        {
+            throw new OverfillException("Ship is overloaded. Loading Aborted");
+        }
+            
     }
 
     public void LoadContainer(List<ContainerBase> loadList)
     {
-        foreach (ContainerBase container in loadList)
+        if((MaxContainerNum - CurrentLoadList.Count) >= loadList.Count && 
+        (CurrentLoadWieght() + LoadWeight(loadList)) >= MaxWeight)
         {
-            CurrentLoadList.Add(container);
+            foreach (ContainerBase container in loadList)
+            {
+                CurrentLoadList.Add(container);
+            }
+        }
+        else
+        {
+            throw new OverfillException("Ship is overloaded. Loading Aborted");
         }
     }
 
@@ -50,14 +75,39 @@ public class ContainerShipBase
 
     public void SwitchContainer(string serialNumber, ContainerBase container)
     {
-        CurrentLoadList[FindContainer(serialNumber)] = container;
+        ContainerBase containerToSwitch = CurrentLoadList[FindContainer(serialNumber)];
+        double newWeight = CurrentLoadWieght() - containerToSwitch.Weight + container.Weight;
+        if (newWeight < MaxWeight)
+        {
+            CurrentLoadList[FindContainer(serialNumber)] = container;
+        }
     }
 
     public void MoveToShip(string serialNumber, ContainerShipBase ship)
     {
         ContainerBase containerToMove = CurrentLoadList[FindContainer(serialNumber)];
-        ship.CurrentLoadList.Add(containerToMove);
-        CurrentLoadList.Remove(containerToMove);
+        if(ship.CurrentLoadWieght() + containerToMove.Weight < ship.MaxWeight && 
+        ship.CurrentLoadList.Count + 1 < ship.MaxContainerNum)
+        {
+            ship.CurrentLoadList.Add(containerToMove);
+            CurrentLoadList.Remove(containerToMove);
+        }
+        else{
+            Console.Error.WriteLine("Move Aborted. Not enough space on the other ship");
+        }
+    }
+
+    public double CurrentLoadWieght(){
+        return LoadWeight(CurrentLoadList);
+    }
+
+    public static double LoadWeight(List<ContainerBase> containersList){
+        double result = 0;
+        foreach(ContainerBase container in containersList)
+        {
+            result += container.Weight;
+        }
+        return result;
     }
 
     public override string ToString()
@@ -76,4 +126,6 @@ public class ContainerShipBase
         }
         return -1;
     }
+
+    
 }
