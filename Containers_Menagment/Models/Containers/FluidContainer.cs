@@ -3,9 +3,18 @@ using Containers_Menagment.Models.Base;
 
 namespace Containers_Menagment.Models.Containers;
 
-class FuildContainer(string serialNumber, double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct, bool hazardousLoad) : ContainerBase(serialNumber, weightOfLoad, height, weight, depth, maxWeight, currentProduct), IHazardNotifier
+class FuildContainer : 
+    ContainerBase, IHazardNotifier
 {
-    public bool HazardousLoad { get; set; } = hazardousLoad;
+    public bool HazardousLoad { get; set; }
+
+    
+    public FuildContainer(double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct, bool hazardousLoad) : 
+        base(weightOfLoad, height, weight, depth, maxWeight, currentProduct)
+    {
+        HazardousLoad = hazardousLoad;
+        SerialNumber = "KON-L" + ID;
+    }
 
     public override void Load(double newWeight, ProductBase product)
     {

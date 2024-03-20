@@ -112,7 +112,7 @@ public class ContainerShipBase
 
     public override string ToString()
     {
-        return "";
+        return "Nazwa: " + Name + " (Max Speed: " + MaxSpeed + "Max Container Number: " + MaxContainerNum + "Max Load: " + MaxWeight;
     }
 
     private int FindContainer(string serialNumber)

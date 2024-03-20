@@ -2,10 +2,16 @@ using Containers_Menagment.Models.Base;
 
 namespace Containers_Menagment.Models.Containers;
 
-public class FreezerContainer(string serialNumber, double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct) 
-        : ContainerBase(serialNumber, weightOfLoad, height, weight, depth, maxWeight, currentProduct)
+public class FreezerContainer 
+        : ContainerBase
 {
     public double CurrentTemperature { get; set; }
+
+    public FreezerContainer(double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct) : 
+        base(weightOfLoad, height, weight, depth, maxWeight, currentProduct)
+    {
+        SerialNumber = "KON-C-" + ID;
+    }
 
     public override string ToString()
     {
