@@ -7,10 +7,11 @@ public class FreezerContainer
 {
     public double CurrentTemperature { get; set; }
 
-    public FreezerContainer(double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct) : 
+    public FreezerContainer(double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct, double currentTemperature) : 
         base(weightOfLoad, height, weight, depth, maxWeight, currentProduct)
     {
         SerialNumber = "KON-C-" + ID;
+        CurrentTemperature = currentTemperature;
     }
 
     public override string ToString()

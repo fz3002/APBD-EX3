@@ -68,9 +68,11 @@ public class ContainerShipBase
         }
     }
 
-    public void UnloadContainer(string serialNumber)
+    public ContainerBase UnloadContainer(string serialNumber)
     {
+        ContainerBase container = CurrentLoadList[FindContainer(serialNumber)];
         CurrentLoadList.RemoveAt(FindContainer(serialNumber));
+        return container;
     }
 
     public void SwitchContainer(string serialNumber, ContainerBase container)
@@ -125,6 +127,15 @@ public class ContainerShipBase
             }
         }
         return -1;
+    }
+
+    public void PrintContainersList(){
+        int i = 1;
+        foreach(ContainerBase container in CurrentLoadList)
+            {
+                Console.WriteLine(i + ". " + container.ToString());
+                i++;
+            }
     }
 
     

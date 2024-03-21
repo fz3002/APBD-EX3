@@ -3,13 +3,13 @@ using Containers_Menagment.Models.Base;
 
 namespace Containers_Menagment.Models.Containers;
 
-class FuildContainer : 
+class FluidContainer : 
     ContainerBase, IHazardNotifier
 {
     public bool HazardousLoad { get; set; }
 
     
-    public FuildContainer(double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct, bool hazardousLoad) : 
+    public FluidContainer(double weightOfLoad, double height, double weight, double depth, double maxWeight, ProductBase currentProduct, bool hazardousLoad) : 
         base(weightOfLoad, height, weight, depth, maxWeight, currentProduct)
     {
         HazardousLoad = hazardousLoad;

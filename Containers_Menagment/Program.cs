@@ -1,8 +1,10 @@
-﻿namespace Containers_Menagment;
+﻿using Containers_Menagment.UIElements;
+
+namespace Containers_Menagment;
 
 class Program{
     public static void Main(string[] args){
-        Console.WriteLine("Hello, World!");
+        new UI().Start();
     }
 }
 
