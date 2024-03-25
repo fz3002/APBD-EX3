@@ -5,12 +5,12 @@ namespace Containers_Menagment.Models.Base;
 public abstract class ContainerBase
 {
     private static int currentIDNumber = 0;
-    public double MaxLoadWeight { get; set;}
-    public double Height { get; set; }
-    public double Weight { get; set; }
-    public double Depth { get; set; }
-    public double WeightOfLoad { get; set; }
-    public string? SerialNumber { get; set; }
+    public double MaxLoadWeight { get; internal set;}
+    public double Height { get; internal set; }
+    public double Weight { get; internal set; }
+    public double Depth { get; internal set; }
+    public double WeightOfLoad { get; internal set; }
+    public string? SerialNumber { get; internal set; }
     public int ID {get; set;}
     public ProductBase? CurrentProduct { get; set; }
 

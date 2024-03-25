@@ -7,11 +7,11 @@ public class ContainerShipBase
     public List<ContainerBase> CurrentLoadList = [];
     public string Name{ get; set; }
 
-    public double MaxSpeed { get; set; }
+    private double MaxSpeed { get; set; }
 
-    public double MaxWeight { get; set; }
+    private double MaxWeight { get; set; }
 
-    public int MaxContainerNum 
+    private int MaxContainerNum 
     { 
         get => CurrentLoadList.Capacity; 
         set 
